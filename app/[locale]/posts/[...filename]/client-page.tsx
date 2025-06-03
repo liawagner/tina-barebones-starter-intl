@@ -1,6 +1,6 @@
 "use client";
 import { tinaField, useTina } from "tinacms/dist/react";
-import type { PostQuery } from "../../../tina/__generated__/types";
+import type { PostQuery } from "../../../../tina/__generated__/types";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 
 interface ClientPageProps {
@@ -21,9 +21,7 @@ export default function Post(props: ClientPageProps) {
   const content = data.post.body;
   return (
     <>
-      <h1 data-tina-field={tinaField(data.post, "title")}>
-        {data.post.title}
-      </h1>
+      <h1 data-tina-field={tinaField(data.post, "title")}>{data.post.title}</h1>
       <div data-tina-field={tinaField(data.post, "body")}>
         <TinaMarkdown content={content} />
       </div>
