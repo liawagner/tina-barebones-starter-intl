@@ -1,7 +1,7 @@
 "use client";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { tinaField, useTina } from "tinacms/dist/react";
-import type { PageQuery } from "../../tina/__generated__/types";
+import type { PageQuery } from "../../../tina/__generated__/types";
 
 interface ClientPageProps {
   query: string;
