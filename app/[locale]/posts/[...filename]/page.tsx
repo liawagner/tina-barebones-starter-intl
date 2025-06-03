@@ -1,13 +1,14 @@
 import Post from "./client-page";
 import client from "../../../../tina/__generated__/client";
 import { setRequestLocale } from "next-intl/server";
+import { routing } from "../../../../i18n/routing";
 
 export async function generateStaticParams() {
   const pages = await client.queries.postConnection();
   const paths: { locale: string; filename: string[] }[] = [];
 
   // Generate paths for each locale
-  const locales = ["en", "de"];
+  const locales = routing.locales;
 
   for (const locale of locales) {
     // Get posts for this locale
