@@ -20,11 +20,11 @@ export default function Post(props: ClientPageProps) {
   });
   const content = data.post.body;
   return (
-    <>
+    <div className="content">
       <h1 data-tina-field={tinaField(data.post, "title")}>{data.post.title}</h1>
       <div data-tina-field={tinaField(data.post, "body")}>
         <TinaMarkdown content={content} />
       </div>
-    </>
+    </div>
   );
 }

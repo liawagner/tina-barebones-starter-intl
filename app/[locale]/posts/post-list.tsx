@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "../../../i18n/navigation";
 import type { PostConnectionQuery } from "../../../tina/__generated__/types";
 
@@ -7,9 +8,10 @@ interface PostListProps {
 }
 
 export default function PostList({ data, locale }: PostListProps) {
+  const t = useTranslations("HomePage");
   return (
     <>
-      <h1>Posts</h1>
+      <h1 className="title">{t("posts")}</h1>
       <div>
         {data.postConnection?.edges?.map((post) => {
           if (!post?.node) return null;

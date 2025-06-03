@@ -1,6 +1,7 @@
 {
-    "HomePage": {
-      "title": "Hallo Welt!",
-      "about": "Zur About Seite"
-    }
+  "HomePage": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "posts": "Blog"
   }
+}

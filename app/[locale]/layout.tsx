@@ -3,7 +3,7 @@ import React from "react";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "../../i18n/navigation";
 
 export const metadata = {
@@ -23,21 +23,29 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
-
+  const t = await getTranslations("HomePage");
   return (
     <html lang={locale}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Hello International!</title>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+        />
+      </head>
       <body
         style={{
           margin: "3rem",
         }}
       >
         <NextIntlClientProvider>
-          <header>
-            <Link href="/">Home</Link>
+          <header className="navbar">
+            <Link href="/">{t("home")}</Link>
             {" | "}
-            <Link href="/about">About</Link>
+            <Link href="/about">{t("about")}</Link>
             {" | "}
-            <Link href="/posts">Posts</Link>
+            <Link href="/posts">{t("posts")}</Link>
           </header>
           <main>{children}</main>
         </NextIntlClientProvider>
