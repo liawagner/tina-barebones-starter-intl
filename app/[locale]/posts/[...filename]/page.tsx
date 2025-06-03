@@ -1,22 +1,48 @@
 import Post from "./client-page";
 import client from "../../../../tina/__generated__/client";
+import { setRequestLocale } from "next-intl/server";
 
 export async function generateStaticParams() {
   const pages = await client.queries.postConnection();
-  const paths = pages.data?.postConnection?.edges?.map((edge) => ({
-    filename: edge?.node?._sys.breadcrumbs,
-  }));
+  const paths: { locale: string; filename: string[] }[] = [];
 
-  return paths || [];
+  // Generate paths for each locale
+  const locales = ["en", "de"];
+
+  for (const locale of locales) {
+    // Get posts for this locale
+    const localePosts =
+      pages.data?.postConnection?.edges?.filter((edge) =>
+        edge?.node?._sys.relativePath.startsWith(`${locale}/`)
+      ) || [];
+
+    for (const edge of localePosts) {
+      if (edge?.node?._sys.breadcrumbs) {
+        // Remove locale from breadcrumbs since it's in the path
+        const filename = edge.node._sys.breadcrumbs.slice(1);
+        paths.push({
+          locale,
+          filename,
+        });
+      }
+    }
+  }
+
+  return paths;
 }
 
 export default async function PostPage({
   params,
 }: {
-  params: { filename: string[] };
+  params: Promise<{ locale: string; filename: string[] }>;
 }) {
+  const { locale, filename } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const data = await client.queries.post({
-    relativePath: `${params.filename}.md`,
+    relativePath: `${locale}/${filename.join("/")}.md`,
   });
 
   return <Post {...data}></Post>;
